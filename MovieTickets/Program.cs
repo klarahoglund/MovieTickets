@@ -1,7 +1,7 @@
 ﻿
 //Start 
 //Deklarerar och inisierar 
-string input = "0"; //Flagga
+string input = "5"; //Flagga
 string age;
 string antalBiljetter;
 int antal;
@@ -13,9 +13,9 @@ int total;
 
 do
 {
-    //Visa meny minst en gång
-    ShowMAinMenu();
-    //Visar valet som är gjort
+    //Visa meny minst en gång genom att ropa på ShowMainMenu-metoden
+    ShowMainMenu();
+    //Läser in och visar valet som är gjort
     Console.Write( "Ditt val: ");
     input = Console.ReadLine();
     Console.WriteLine(" ");
@@ -34,30 +34,33 @@ do
             PrintPriceInformation(CheckAge(age));   //Kallar på PrintPriceInformation skickar med CheckAge som kollar vilken kategori åldern hör till 0, 1 eller 2         
             break;
 
-        case "2":
+        case "2": //Frågar efter antal biljetter, sparar och gör om till int
             Console.Write("Hur många biljetter vill du köpa?"); 
             antalBiljetter = Console.ReadLine();
             antal = FromStringToInt(antalBiljetter);
+            //Loopar igenom med hjälp av de antal biljetter som användaren har bestämt sig för att köpa, kallar på CheckAge
             for (int i = 1; i < antal+1; i++)
             {
                 Console.Write("Hur gammal är biobesökare " + i + ": ");
                 age= Console.ReadLine();
                 CheckAge(age);              
             }
-            int summa = CalcutateTotal(ungdom, pensioner, standardpris);
-            PrintKvittens(summa, antal);        
+            int summa = CalcutateTotal(ungdom, pensioner, standardpris); //Ropar på CalculateTotal och skickar med hur många biljetter som är i varje kategori
+            PrintKvittens(summa, antal);//Ropar på PrintKvittens som och skickar med summan och antal biljetter
+            ResetCount(); //Nollar räkneverket för alla kategorier       
             break;
 
-        case "3":
-            Console.Write("Skriv in valfri text: ");
+        case "3": //Frågar efter text , läser in den 
+            Console.Write("Skriv in valfri text: "); 
             string text = Console.ReadLine();
+            //Loopar igenom 10 ggr och skriver ut i önskad formatering
             for (int i = 1; i < 11; i++)
             {
                 Console.Write(i + "." + text + ", ");
             }
             break;
 
-        case "4":
+        case "4": //Frågar efter ord, läser in och ropar på PrintThethird och skickar med det inlästa
             Console.Write("Skriv in minst 3 ord: ");
             string words = Console.ReadLine();
             PrintTheThird(words);
@@ -69,13 +72,13 @@ do
     }
     } while(input != "0");
 
-void PrintTheThird(string? words)
+void PrintTheThird(string? words) //lägger in orden i en Array med hjälp av .split. Skriver ut den tredje platsen i arrayen
 {
     string[] split = words.Split(' ');
     Console.WriteLine("Det tredje ordet är: " + split[2]);
 }
 
-void PrintKvittens(int summa, int antal)
+void PrintKvittens(int summa, int antal) //Skriver ut med den information som skickats med till metoden
 {
     Console.WriteLine("****************************");
     Console.WriteLine($"    Antal personer: {antal}");
@@ -101,14 +104,14 @@ void PrintPriceInformation(int v) // skriver ut rätt text efter kategori samt n
 }
 
 
-void ResetCount()
+void ResetCount() //nollställer räknarna på kategorierna
 {
     ungdom = 0;
     pensioner = 0;
     standardpris = 0;
 }
 
-int  CalcutateTotal(int ungdom, int pensioner, int standardpris)
+int  CalcutateTotal(int ungdom, int pensioner, int standardpris) //Ränkar ut totalen genom vilket antal det är i varje kategori * priset
 {
     total = ungdom * 80 + pensioner * 90 + standardpris * 120;
     return total;
@@ -141,7 +144,7 @@ int CheckAge(string age) //Kollar vilken kategori åldern är i och räknar anta
     }
 }
 
-void ShowMAinMenu()
+void ShowMainMenu() //Huvudmeny
 
 {
     Console.WriteLine(" ");
